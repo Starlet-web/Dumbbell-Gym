@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dumble Gym - Premium Fitness Training</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#fff1f2',
+              100: '#ffe4e6',
+              200: '#fecdd3',
+              300: '#fda4af',
+              400: '#fb7185',
+              500: '#f43f5e',
+              600: '#e11d48',
+              700: '#be123c',
+              800: '#9f1239',
+              900: '#881337',
+            },
+            secondary: {
+              50: '#f8fafc',
+              100: '#f1f5f9',
+              200: '#e2e8f0',
+              300: '#cbd5e1',
+              400: '#94a3b8',
+              500: '#64748b',
+              600: '#475569',
+              700: '#334155',
+              800: '#1e293b',
+              900: '#0f172a',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Bebas Neue', 'sans-serif'],
+          },
+          animation: {
+            'float': 'float 3s ease-in-out infinite',
+            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'bounce-slow': 'bounce 3s infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-10px)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- AOS CSS -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <style>
+    .gradient-text {
+      background: linear-gradient(90deg, #f43f5e 0%, #0f172a 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero-overlay {
+      background: linear-gradient(135deg, rgba(244, 63, 94, 0.85) 0%, rgba(15, 23, 42, 0.85) 100%);
+    }
+    .feature-card:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+    }
+    .trainer-card:hover img {
+      transform: scale(1.05);
+      filter: brightness(1.1);
+    }
+    .pulse-animation {
+      animation: pulse-slow 3s infinite;
+    }
+    .muscle-path {
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+      animation: dash 5s linear forwards;
+    }
+    @keyframes dash {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+    .bg-gym-pattern {
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f43f5e' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col font-sans antialiased bg-gym-pattern">
+
+  <!-- Header -->
+  <header class="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-sm px-6 py-3 flex justify-between items-center border-b border-gray-200">
+    <div class="flex items-center space-x-3">
+      <div class="relative">
+        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=64&h=64&q=80" alt="Logo" class="w-10 h-10 rounded-full border-2 border-primary-500 shadow-md object-cover">
+        <span class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white"></span>
+      </div>
+      <h1 class="text-2xl font-bold font-display gradient-text">DUMBLE GYM</h1>
+    </div>
+    <div class="flex items-center space-x-3">
+      <a href="tel:+919648837922" class="hidden sm:flex items-center text-primary-600 hover:text-primary-800 transition">
+        <i class="fas fa-phone-alt mr-1 text-sm"></i>
+        <span class="text-sm font-medium">Call Us</span>
+      </a>
+      <a href="membership.html" class="bg-gradient-to-r from-primary-500 to-secondary-900 hover:opacity-90 text-white px-5 py-2 rounded-full font-semibold text-sm shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] flex items-center">
+        <i class="fas fa-dumbbell mr-2"></i>Join Now
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="mt-20 px-4 pb-24 space-y-10 max-w-6xl mx-auto w-full">
+
+    <!-- Hero Section -->
+    <section class="relative rounded-3xl overflow-hidden shadow-2xl" data-aos="fade-up">
+      <div class="aspect-w-16 aspect-h-9 md:aspect-h-7">
+        <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" class="absolute inset-0 w-full h-full object-cover" alt="Gym interior">
+      </div>
+      <div class="absolute inset-0 hero-overlay flex flex-col justify-center items-center text-center p-6 md:p-10">
+        <div class="bg-white/90 px-8 py-6 rounded-2xl max-w-2xl backdrop-blur-sm border border-white/20">
+          <h2 class="text-4xl md:text-5xl font-extrabold font-display text-gray-900 mb-2">TRANSFORM YOUR BODY</h2>
+          <p class="text-xl text-gray-700 mb-6">Professional training with certified coaches</p>
+          <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a href="membership.html" class="bg-primary-600 hover:bg-primary-700 text-white px-8 py-3 rounded-full font-bold shadow-lg transform hover:scale-105 transition flex items-center justify-center">
+              <i class="fas fa-dumbbell mr-2"></i> Start Today
+            </a>
+            <a href="tour.html" class="bg-black/20 hover:bg-black/30 text-white border border-white/30 px-8 py-3 rounded-full font-semibold shadow-lg transform hover:scale-105 transition flex items-center justify-center">
+              <i class="fas fa-map-marker-alt mr-2"></i> Gym Tour
+            </a>
+          </div>
+        </div>
+        <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex items-center space-x-2">
+          <div class="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+          <div class="text-white text-sm font-medium">Only ₹1500/month</div>
+          <div class="w-2 h-2 bg-white rounded-full animate-pulse animation-delay-1000"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4" data-aos="fade-up">
+      <div class="bg-white p-4 rounded-xl shadow-md text-center border-b-4 border-primary-500">
+        <div class="text-2xl font-bold text-primary-600">500+</div>
+        <div class="text-sm text-gray-600">Members</div>
+      </div>
+      <div class="bg-white p-4 rounded-xl shadow-md text-center border-b-4 border-secondary-700">
+        <div class="text-2xl font-bold text-secondary-700">10+</div>
+        <div class="text-sm text-gray-600">Certified Trainers</div>
+      </div>
+      <div class="bg-white p-4 rounded-xl shadow-md text-center border-b-4 border-primary-500">
+        <div class="text-2xl font-bold text-primary-600">24/7</div>
+        <div class="text-sm text-gray-600">Access</div>
+      </div>
+      <div class="bg-white p-4 rounded-xl shadow-md text-center border-b-4 border-secondary-700">
+        <div class="text-2xl font-bold text-secondary-700">100%</div>
+        <div class="text-sm text-gray-600">Satisfaction</div>
+      </div>
+    </div>
+
+    <!-- Membership Info -->
+    <section class="bg-white rounded-3xl shadow-xl overflow-hidden" data-aos="zoom-in">
+      <div class="bg-gradient-to-r from-primary-500 to-secondary-900 p-4 text-center">
+        <h2 class="text-2xl md:text-3xl font-bold font-display text-white">MEMBERSHIP PLANS</h2>
+      </div>
+      <div class="p-6 md:p-8 space-y-6">
+        <div class="text-center">
+          <p class="text-lg font-medium">Special Offer <span class="bg-primary-100 text-primary-700 px-3 py-1 rounded-full font-bold">Limited Time</span></p>
+          <div class="mt-4 inline-flex items-center bg-yellow-50 text-yellow-800 px-4 py-2 rounded-full text-sm font-medium">
+            <i class="fas fa-fire mr-2 text-yellow-500"></i> Enroll today for 25% Discount!
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="bg-gradient-to-br from-primary-50 to-white p-6 rounded-xl shadow-md border border-primary-100 text-center feature-card transition-all duration-300">
+            <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-user text-2xl text-primary-600"></i>
+            </div>
+            <h3 class="text-xl font-bold font-display text-primary-700 mb-2">Basic</h3>
+            <p class="text-3xl font-bold text-gray-900 mb-4">₹1500<span class="text-sm font-normal text-gray-500">/month</span></p>
+            <ul class="text-gray-600 text-sm space-y-2 mb-6">
+              <li>Gym Access</li>
+              <li>Basic Equipment</li>
+              <li>1 Free Trainer Session</li>
+            </ul>
+            <a href="#" class="bg-primary-600 hover:bg-primary-700 text-white px-6 py-2 rounded-full text-sm font-medium">Choose Plan</a>
+          </div>
+          <div class="bg-gradient-to-br from-secondary-50 to-white p-6 rounded-xl shadow-md border border-secondary-200 text-center feature-card transition-all duration-300 transform scale-105 relative">
+            <div class="absolute -top-3 -right-3 bg-primary-600 text-white text-xs font-bold px-2 py-1 rounded-full">POPULAR</div>
+            <div class="w-16 h-16 bg-secondary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-user-friends text-2xl text-secondary-700"></i>
+            </div>
+            <h3 class="text-xl font-bold font-display text-secondary-800 mb-2">Premium</h3>
+            <p class="text-3xl font-bold text-gray-900 mb-4">₹2500<span class="text-sm font-normal text-gray-500">/month</span></p>
+            <ul class="text-gray-600 text-sm space-y-2 mb-6">
+              <li>24/7 Gym Access</li>
+              <li>All Equipment</li>
+              <li>3 Trainer Sessions</li>
+              <li>Nutrition Plan</li>
+            </ul>
+            <a href="#" class="bg-secondary-700 hover:bg-secondary-800 text-white px-6 py-2 rounded-full text-sm font-medium">Choose Plan</a>
+          </div>
+          <div class="bg-gradient-to-br from-primary-50 to-white p-6 rounded-xl shadow-md border border-primary-100 text-center feature-card transition-all duration-300">
+            <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-crown text-2xl text-primary-600"></i>
+            </div>
+            <h3 class="text-xl font-bold font-display text-primary-700 mb-2">Elite</h3>
+            <p class="text-3xl font-bold text-gray-900 mb-4">₹4000<span class="text-sm font-normal text-gray-500">/month</span></p>
+            <ul class="text-gray-600 text-sm space-y-2 mb-6">
+              <li>24/7 VIP Access</li>
+              <li>All Equipment + Sauna</li>
+              <li>Unlimited Trainer Sessions</li>
+              <li>Custom Nutrition Plan</li>
+              <li>Progress Tracking</li>
+            </ul>
+            <a href="#" class="bg-primary-600 hover:bg-primary-700 text-white px-6 py-2 rounded-full text-sm font-medium">Choose Plan</a>
+          </div>
+        </div>
+
+        <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+          <h3 class="text-xl font-bold text-center text-primary-600 mb-4 font-display">HOW TO JOIN DUMBLE GYM</h3>
+          <div class="grid md:grid-cols-3 gap-4">
+            <div class="flex items-start space-x-3">
+              <div class="flex-shrink-0 bg-primary-100 text-primary-600 w-8 h-8 rounded-full flex items-center justify-center font-bold">1</div>
+              <div>
+                <h4 class="font-semibold">Visit Our Gym</h4>
+                <p class="text-sm text-gray-600">Take a tour of our facilities</p>
+              </div>
+            </div>
+            <div class="flex items-start space-x-3">
+              <div class="flex-shrink-0 bg-primary-100 text-primary-600 w-8 h-8 rounded-full flex items-center justify-center font-bold">2</div>
+              <div>
+                <h4 class="font-semibold">Choose Your Plan</h4>
+                <p class="text-sm text-gray-600">Select membership that fits you</p>
+              </div>
+            </div>
+            <div class="flex items-start space-x-3">
+              <div class="flex-shrink-0 bg-primary-100 text-primary-600 w-8 h-8 rounded-full flex items-center justify-center font-bold">3</div>
+              <div>
+                <h4 class="font-semibold">Start Training</h4>
+                <p class="text-sm text-gray-600">Begin your fitness journey</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center py-4">
+          <p class="text-primary-600 italic font-medium">"Sweat now, shine later. Your fitness journey starts here."</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="bg-white p-6 rounded-2xl shadow-xl overflow-hidden" data-aos="fade-up">
+      <div class="md:flex items-center gap-8">
+        <div class="md:w-1/2 mb-6 md:mb-0">
+          <h2 class="text-3xl font-bold font-display text-primary-600 mb-4">WHY CHOOSE DUMBLE GYM?</h2>
+          <p class="text-gray-700 mb-4">We provide world-class fitness facilities with personalized training programs tailored to your goals.</p>
+          <ul class="space-y-3">
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+              <span>State-of-the-art equipment from leading brands</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+              <span>Certified trainers with 5+ years experience</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+              <span>24/7 access for premium members</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+              <span>Clean, spacious and well-ventilated facility</span>
+            </li>
+          </ul>
+        </div>
+        <div class="md:w-1/2">
+          <img src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1075&q=80" class="w-full h-auto rounded-xl shadow-lg object-cover" alt="Gym equipment" data-aos="zoom-in">
+        </div>
+      </div>
+    </section>
+
+    <!-- Trainers -->
+    <section class="bg-white p-6 rounded-2xl shadow-xl" data-aos="zoom-in-up">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl font-bold font-display text-primary-600 mb-2">MEET OUR TRAINERS</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">Certified professionals dedicated to your fitness success</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
+        <div class="text-center trainer-card group" data-aos="flip-left">
+          <div class="relative overflow-hidden rounded-xl mb-4 h-64">
+            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Trainer">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end justify-center pb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div class="text-white text-center px-4">
+                <p class="text-sm">Certified Personal Trainer | 8+ Years Experience</p>
+              </div>
+            </div>
+          </div>
+          <h3 class="text-xl font-bold font-display text-primary-700">RAJESH KUMAR</h3>
+          <p class="text-secondary-600 font-medium">Strength & Conditioning</p>
+        </div>
+        <div class="text-center trainer-card group" data-aos="flip-left" data-aos-delay="100">
+          <div class="relative overflow-hidden rounded-xl mb-4 h-64">
+            <img src="https://images.unsplash.com/photo-1533681904393-9ab6eee7e408?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Trainer">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end justify-center pb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div class="text-white text-center px-4">
+                <p class="text-sm">Certified Nutritionist | 5+ Years Experience</p>
+              </div>
+            </div>
+          </div>
+          <h3 class="text-xl font-bold font-display text-primary-700">PRIYA SHARMA</h3>
+          <p class="text-secondary-600 font-medium">Weight Loss & Nutrition</p>
+        </div>
+        <div class="text-center trainer-card group" data-aos="flip-left" data-aos-delay="200">
+          <div class="relative overflow-hidden rounded-xl mb-4 h-64">
+            <img src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Trainer">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end justify-center pb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div class="text-white text-center px-4">
+                <p class="text-sm">CrossFit Level 2 Trainer | 10+ Years Experience</p>
+              </div>
+            </div>
+          </div>
+          <h3 class="text-xl font-bold font-display text-primary-700">AMIT SINGH</h3>
+          <p class="text-secondary-600 font-medium">Functional Training</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="bg-white p-6 rounded-2xl shadow-xl" data-aos="fade-up">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl font-bold font-display text-primary-600 mb-2">SUCCESS STORIES</h2>
+        <p class="text-gray-600">What our members say about us</p>
+      </div>
+      <div class="space-y-4">
+        
+        <!-- Comment 1 -->
+        <div class="flex items-start gap-4 bg-gray-50 p-4 rounded-lg border-l-4 border-primary-500 shadow-sm">
+          <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Member" class="w-10 h-10 rounded-full object-cover">
+          <div>
+            <h4 class="font-semibold text-sm text-gray-800">Neha Gupta</h4>
+            <div class="flex text-yellow-400 text-xs mb-1">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <p class="text-sm italic text-gray-700 mt-1">"Lost 12kg in 3 months with Priya's guidance. The nutrition plan made all the difference!"</p>
+          </div>
+        </div>
+
+        <!-- Comment 2 -->
+        <div class="flex items-start gap-4 bg-gray-50 p-4 rounded-lg border-l-4 border-primary-500 shadow-sm">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Member" class="w-10 h-10 rounded-full object-cover">
+          <div>
+            <h4 class="font-semibold text-sm text-gray-800">Rahul Verma</h4>
+            <div class="flex text-yellow-400 text-xs mb-1">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <p class="text-sm italic text-gray-700 mt-1">"Amit's functional training program completely transformed my strength and mobility. Best gym in town!"</p>
+          </div>
+        </div>
+
+        <!-- Comment 3 -->
+        <div class="flex items-start gap-4 bg-gray-50 p-4 rounded-lg border-l-4 border-primary-500 shadow-sm">
+          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=688&q=80" alt="Member" class="w-10 h-10 rounded-full object-cover">
+          <div>
+            <h4 class="font-semibold text-sm text-gray-800">Ananya Patel</h4>
+            <div class="flex text-yellow-400 text-xs mb-1">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <p class="text-sm italic text-gray-700 mt-1">"The 24/7 access is perfect for my schedule. Clean facilities and great community."</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="mt-10 text-center">
+        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Happy Members" class="rounded-xl shadow-md mx-auto w-full max-w-3xl" data-aos="zoom-in">
+        <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+          <a href="https://chat.whatsapp.com/HbSNkHQ3xAIF7SVk9VX4AJ" class="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-full font-bold shadow-lg transform hover:scale-105 transition flex items-center justify-center">
+            <i class="fab fa-whatsapp mr-2 text-lg"></i> Join Community
+          </a>
+          <a href="tel:+919648837922" class="bg-primary-500 hover:bg-primary-600 text-white px-8 py-3 rounded-full font-bold shadow-lg transform hover:scale-105 transition flex items-center justify-center">
+            <i class="fas fa-phone-alt mr-2"></i> Call for Tour
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gym Features -->
+    <section class="bg-white p-6 rounded-2xl shadow-xl" data-aos="fade-up">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl font-bold font-display text-primary-600 mb-2">OUR FACILITIES</h2>
+        <p class="text-gray-600">World-class equipment and amenities</p>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="text-center p-4">
+          <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-3">
+            <i class="fas fa-dumbbell text-2xl text-primary-600"></i>
+          </div>
+          <h3 class="font-bold">Strength Zone</h3>
+        </div>
+        <div class="text-center p-4">
+          <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-3">
+            <i class="fas fa-running text-2xl text-primary-600"></i>
+          </div>
+          <h3 class="font-bold">Cardio Area</h3>
+        </div>
+        <div class="text-center p-4">
+          <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-3">
+            <i class="fas fa-spa text-2xl text-primary-600"></i>
+          </div>
+          <h3 class="font-bold">Functional Zone</h3>
+        </div>
+        <div class="text-center p-4">
+          <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-3">
+            <i class="fas fa-shower text-2xl text-primary-600"></i>
+          </div>
+          <h3 class="font-bold">Locker Rooms</h3>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Floating Action Buttons -->
+  <div class="fixed right-6 bottom-24 z-50 flex flex-col space-y-3">
+    <a href="tel:+919648837922" class="w-12 h-12 bg-green-500 rounded-full shadow-lg flex items-center justify-center text-white hover:bg-green-600 transition transform hover:scale-110" data-aos="zoom-in" data-aos-delay="300">
+      <i class="fas fa-phone-alt"></i>
+    </a>
+    <button id="whatsappBtn" class="w-12 h-12 bg-primary-500 rounded-full shadow-lg flex items-center justify-center text-white hover:bg-primary-600 transition transform hover:scale-110" data-aos="zoom-in" data-aos-delay="200">
+      <i class="fab fa-whatsapp"></i>
+    </button>
+  </div>
+
+  <!-- Slim Bottom Navigation -->
+  <nav class="fixed bottom-4 left-1/2 transform -translate-x-1/2 w-[92%] max-w-md flex justify-between items-center px-5 py-3 rounded-full bg-white/90 backdrop-blur-md shadow-xl z-50 text-xs border border-gray-100">
+    <a href="index.html" class="flex flex-col items-center text-gray-600 hover:text-primary-600 transition">
+      <i class="fas fa-home text-lg mb-1"></i>
+      <span>Home</span>
+    </a>
+    <a href="classes.html" class="flex flex-col items-center text-gray-600 hover:text-primary-600 transition">
+      <i class="fas fa-calendar-alt text-lg mb-1"></i>
+      <span>Classes</span>
+    </a>
+    <a href="membership.html" class="absolute -top-6 left-1/2 transform -translate-x-1/2 text-center">
+      <div class="bg-gradient-to-br from-primary-500 to-secondary-900 text-white p-3 rounded-full shadow-xl hover:scale-110 transition flex items-center justify-center">
+        <i class="fas fa-dumbbell text-xl"></i>
+      </div>
+      <span class="block text-[11px] text-primary-700 font-semibold mt-1">JOIN</span>
+    </a>
+    <a href="trainers.html" class="flex flex-col items-center text-gray-600 hover:text-primary-600 transition">
+      <i class="fas fa-users text-lg mb-1"></i>
+      <span>Trainers</span>
+    </a>
+    <button id="whatsappNavBtn" class="flex flex-col items-center text-gray-600 hover:text-green-600 transition">
+      <i class="fab fa-whatsapp text-lg mb-1"></i>
+      <span>Contact</span>
+    </button>
+  </nav>
+
+  <!-- AOS JS -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    // WhatsApp button handlers
+    const whatsappRedirect = (phone = "919648837922", message = "Hello, I'm interested in joining Dumble Gym.") => {
+      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+    };
+    
+    document.getElementById("whatsappBtn").addEventListener("click", () => whatsappRedirect());
+    document.getElementById("whatsappNavBtn").addEventListener("click", () => whatsappRedirect());
+    
+    // Initialize AOS
+    AOS.init({
+      duration: 800,
+      offset: 100,
+      once: true,
+      easing: 'ease-out-quart'
+    });
+
+    // Animate muscle path
+    document.addEventListener('DOMContentLoaded', () => {
+      const paths = document.querySelectorAll('.muscle-path');
+      paths.forEach(path => {
+        const length = path.getTotalLength();
+        path.style.strokeDasharray = length;
+        path.style.strokeDashoffset = length;
+      });
+    });
+  </script>
+</body>
+</html>

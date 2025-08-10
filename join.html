@@ -1142,32 +1142,37 @@
     let countdownInterval;
     const ownerWhatsAppNumber = "919876543210"; // Replace with actual number
     
-    // Initialize authentication
-    function initializeAuth() {
+    // Enable anonymous authentication
+    function authenticateAnonymously() {
       return auth.signInAnonymously()
         .then(() => {
           console.log('Anonymous authentication successful');
           return true;
         })
         .catch(error => {
-          console.error('Authentication failed:', error);
-          showToast('System initialization failed. Please refresh the page.', 'error');
+          console.error('Anonymous authentication failed:', error);
           return false;
         });
     }
     
     // Check if user already has access
     function checkUserAccess() {
-      initializeAuth().then(authenticated => {
-        if (!authenticated) return;
-        
-        const email = localStorage.getItem('dumbbell_user_email');
-        if (!email) {
-          document.getElementById('membershipFormContainer').style.display = 'block';
+      const email = localStorage.getItem('dumbbell_user_email');
+      if (!email) {
+        // No user data found, show the form
+        document.getElementById('membershipFormContainer').style.display = 'block';
+        return;
+      }
+      
+      showLoading('Checking your membership status...');
+      
+      // First authenticate anonymously
+      authenticateAnonymously().then(authenticated => {
+        if (!authenticated) {
+          hideLoading();
+          showToast('Failed to authenticate. Please try again.', 'error');
           return;
         }
-        
-        showLoading('Checking your membership status...');
         
         db.collection('memberships').where('email', '==', email).orderBy('paymentDate', 'desc').limit(1).get()
           .then(querySnapshot => {
@@ -1177,29 +1182,40 @@
                 membershipData = data;
                 
                 if (data.accessGranted === true) {
+                  // Check if membership is still active
                   const expiryDate = new Date(data.expiryDate);
                   const now = new Date();
                   
                   if (now < expiryDate) {
+                    // Membership is active, show countdown
                     showCountdown(expiryDate);
+                    hideLoading();
                   } else {
+                    // Membership expired, show renewal option
                     showExpiredMembership(expiryDate);
+                    hideLoading();
                   }
                 } else if (data.status === 'pending') {
+                  // Payment verification pending
                   showVerificationPending();
+                  hideLoading();
                 } else {
+                  // No active membership, show form
                   document.getElementById('membershipFormContainer').style.display = 'block';
+                  hideLoading();
                 }
               });
             } else {
+              // No membership found, show form
               document.getElementById('membershipFormContainer').style.display = 'block';
+              hideLoading();
             }
-            hideLoading();
           })
           .catch(error => {
             hideLoading();
             console.error('Error checking access:', error);
             showToast('Error checking membership status. Please try again.', 'error');
+            // Show form if there's an error
             document.getElementById('membershipFormContainer').style.display = 'block';
           });
       });
@@ -1492,50 +1508,48 @@
     function completeMembership() {
       showLoading('Completing membership process...');
       
-      // Save membership data to Firebase
-      saveMembershipData()
-        .then(() => {
-          // Generate receipt
-          generateReceipt();
+      // First authenticate anonymously
+      authenticateAnonymously().then(authenticated => {
+        if (!authenticated) {
           hideLoading();
-          
-          // Update progress bar
-          document.getElementById('step2').classList.add('completed');
-          document.getElementById('step3').classList.add('active');
-          
-          // Show countdown
-          showCountdown(new Date(membershipData.expiryDate));
-        })
-        .catch(error => {
-          hideLoading();
-          showToast('Error saving membership data: ' + error.message, 'error');
-          console.error('Error:', error);
-        });
-    }
-    
-    // Save membership data to Firebase with error handling
-    function saveMembershipData() {
-      return new Promise((resolve, reject) => {
-        // Check authentication status
-        if (!auth.currentUser) {
-          initializeAuth()
-            .then(authenticated => {
-              if (authenticated) {
-                // Retry after authentication
-                saveMembershipData().then(resolve).catch(reject);
-              } else {
-                reject(new Error('Authentication failed'));
-              }
-            })
-            .catch(reject);
+          showToast('Failed to authenticate. Please try again.', 'error');
           return;
         }
-
+        
+        // Save membership data to Firebase
+        saveMembershipData()
+          .then(() => {
+            // Generate receipt
+            generateReceipt();
+            hideLoading();
+            
+            // Update progress bar
+            document.getElementById('step2').classList.add('completed');
+            document.getElementById('step3').classList.add('active');
+            
+            // Show countdown
+            showCountdown(new Date(membershipData.expiryDate));
+          })
+          .catch(error => {
+            hideLoading();
+            showToast('Error saving membership data: ' + error.message, 'error');
+            console.error('Error:', error);
+          });
+      });
+    }
+    
+    // Save membership data to Firebase
+    function saveMembershipData() {
+      return new Promise((resolve, reject) => {
+        // Generate a unique ID for this membership
         const membershipId = 'MEM' + Date.now();
         
+        // Save to Firestore
         db.collection('memberships').doc(membershipId).set(membershipData)
           .then(() => {
             console.log('Membership data saved to Firestore');
+            
+            // Also save to Realtime Database
             database.ref('memberships/' + membershipId).set(membershipData)
               .then(() => {
                 console.log('Membership data saved to Realtime Database');
@@ -1548,15 +1562,11 @@
           })
           .catch(error => {
             console.error('Error saving to Firestore:', error);
-            // Check if error is permission-related
-            if (error.code === 'permission-denied') {
-              showToast('Permission denied. Please check Firebase security rules.', 'error');
-            }
             reject(error);
           });
       });
     }
-
+    
     // Send confirmation email (simulated)
     function sendConfirmationEmail() {
       console.log('Sending confirmation email to:', membershipData.email);
@@ -1681,9 +1691,20 @@
     
     // Initialize on page load
     window.addEventListener('load', function() {
-      initializeAuth().then(() => {
-        checkUserAccess();
+      // First authenticate anonymously
+      authenticateAnonymously().then(authenticated => {
+        if (authenticated) {
+          checkUserAccess();
+        } else {
+          showToast('Failed to initialize. Please refresh the page.', 'error');
+        }
       });
+      
+      // Check for payment success in URL parameters
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('payment') === 'success') {
+        // This would handle successful payment callback
+      }
     });
   </script>
 </body>
